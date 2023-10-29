@@ -8,9 +8,9 @@ import {
   BaseEntity,
 } from "typeorm";
 
-import { db } from "config/database";
 import { IRoles } from "../types/common";
 import { Photo } from "./photo.entity";
+import { ClientDTO } from "model/DTOs";
 
 @Entity()
 export class User extends BaseEntity {
@@ -23,10 +23,7 @@ export class User extends BaseEntity {
   @Column({ type: "varchar", length: 25, nullable: false })
   lastName: string;
 
-  @Column({
-    generatedType: "STORED",
-    asExpression: `'firstName' || ' ' || 'lastName'`,
-  })
+  @Column({ type: "varchar", nullable: false })
   fullName: string;
 
   @Column({ type: "varchar", unique: true, nullable: false })
@@ -60,5 +57,14 @@ export class Client extends User {
     return this.createQueryBuilder("client")
       .where(`client.${key} = :${key}`, { [key]: value })
       .getOne();
+  }
+
+  static async registerNewClient(clientData: ClientDTO) {
+    const newClient = Object.assign(new Client(), clientData);
+
+    //set full name
+    newClient.fullName = newClient.firstName + " " + newClient.lastName;
+
+    return await newClient.save();
   }
 }

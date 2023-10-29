@@ -1,20 +1,21 @@
-import { validate, ValidationError, ValidationSchema } from "class-validator";
+import { validate, ValidationError } from "class-validator";
 import { plainToClass } from "class-transformer";
 import { IAnyObject } from "model/types/common";
 
-export interface ValidationResult {
+export interface IVlidationResult {
+  DTO: IAnyObject;
   errors: ValidationError[];
-  validData: IAnyObject;
 }
 
 export class Validator {
   constructor() {}
 
-  static async validate<T>(schema: any, newData: IAnyObject): Promise<ValidationResult> {
+  static async validate<T>(schema: any, newData: IAnyObject): Promise<IVlidationResult> {
     try {
-      const errors = await validate(plainToClass(schema, newData));
+      const clientDTO: IAnyObject = plainToClass(schema, newData);
+      const errors = await validate(clientDTO);
 
-      return { errors, validData: newData };
+      return { errors, DTO: clientDTO };
     } catch (error) {
       throw error;
     }

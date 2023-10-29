@@ -1,4 +1,4 @@
-import { Length, IsEmail, IsEnum, IsBoolean, IsStrongPassword, IsUrl } from "class-validator";
+import { Length, IsEmail, IsEnum, IsBoolean, IsStrongPassword, IsString, IsArray, MaxLength } from "class-validator";
 import { Exclude } from "class-transformer";
 
 import { IRoles } from "model/types/common";
@@ -16,11 +16,11 @@ class UserDTO {
   @IsEmail()
   email: string;
 
-  @Length(6, 50)
-  @IsStrongPassword({ minNumbers: 1 })
+  @MaxLength(50)
+  @IsStrongPassword({ minNumbers: 1, minLength: 6, minSymbols: 0, minUppercase: 0, minLowercase: 0 })
   password: string;
-
-  @IsEnum({ enum: IRoles })
+  // TODO: convert to enum
+  @IsString()
   role: string;
 
   @IsBoolean()
@@ -28,6 +28,9 @@ class UserDTO {
 }
 
 export default class ClientDTO extends UserDTO {
-  @IsUrl()
+  @IsString()
   avatar: string;
+
+  @IsArray({})
+  photos: string;
 }

@@ -1,8 +1,7 @@
 import "reflect-metadata";
 import dotenv from "dotenv";
-import express from "express";
+import express, { Request, Response, NextFunction, RequestHandler } from "express";
 
-import { db } from "config/database";
 import { clientController } from "controllers";
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
@@ -10,18 +9,13 @@ dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 // create express app
 export const app = express();
 
-app.set("port", process.env.PORT || 80);
 app.use(express.json());
 
-app.post("/api/register", clientController.handlRegister);
+app.post("/api/register", (req: Request, res: Response, next: NextFunction) =>
+  clientController.handlRegister(req, res, next)
+);
+app.use("*", (_, res: Response): Response => res.status(404).send("Not Found"));
 
-export function startServer() {
-  db.initialize()
-    .then(() => {
-      console.log("Database initialized");
-      app.listen(() => console.log("Server started on port: ", app.get("port")));
-    })
-    .catch((error) => {
-      console.error("Error during Data Source initialization:", error);
-    });
-}
+app.use((error: Error, req: Request, res: Response, next: NextFunction): Response => {
+  return res.status(500).send(error.message);
+});
