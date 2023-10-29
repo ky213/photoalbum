@@ -1,9 +1,9 @@
 import "reflect-metadata";
 import dotenv from "dotenv";
 import express from "express";
-import { DataSource } from "typeorm";
 
 import { db } from "config/database";
+import { clientController } from "controllers";
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
@@ -11,6 +11,9 @@ dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 export const app = express();
 
 app.set("port", process.env.PORT || 80);
+app.use(express.json());
+
+app.post("/api/register", clientController.handlRegister);
 
 export function startServer() {
   db.initialize()

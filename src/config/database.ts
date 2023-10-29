@@ -1,4 +1,3 @@
-import { User, Client, Photo } from "model/entities";
 import { DataSource } from "typeorm";
 
 export const db = new DataSource({
@@ -8,7 +7,7 @@ export const db = new DataSource({
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE_NAME,
-  entities: [User, Photo, Client],
+  entities: ["src/model/entities/*.ts", "src/model/entities/*.ts"],
   logging: true,
-  synchronize: true,
+  synchronize: process.env.NODE_ENV == "dev",
 });

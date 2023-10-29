@@ -1,11 +1,19 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+  BaseEntity,
+} from "typeorm";
 
 import { db } from "config/database";
-import { Roles } from "../types/common";
+import { IRoles } from "../types/common";
 import { Photo } from "./photo.entity";
 
 @Entity()
-export class User {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -27,7 +35,7 @@ export class User {
   @Column({ nullable: false })
   password: string;
 
-  @Column({ type: "enum", enum: Roles, default: Roles.USER })
+  @Column({ type: "enum", enum: IRoles, default: IRoles.USER })
   role: string;
 
   @Column({ default: true })
@@ -47,4 +55,10 @@ export class Client extends User {
 
   @OneToMany(() => Photo, (photo) => photo.user)
   photos: Photo[];
+
+  static async findClientBy(key: string, value: string) {
+    return this.createQueryBuilder("client")
+      .where(`client.${key} = :${key}`, { [key]: value })
+      .getOne();
+  }
 }

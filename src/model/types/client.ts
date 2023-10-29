@@ -1,14 +1,14 @@
-import { Roles } from "./common";
+import { IRoles } from "./common";
 import { IPhoto } from "./photo";
 
 export interface IUser {
   readonly id?: string;
   firstName: string;
   lastName: string;
-  fullName?: string;
+  readonly fullName?: string;
   email: string;
   password?: string;
-  role: Roles;
+  role: IRoles;
   active: boolean;
   readonly createdAt?: Date;
   readonly updatedAt?: Date;

@@ -1,8 +1,16 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+  BaseEntity,
+} from "typeorm";
 import { Client } from ".";
 
 @Entity()
-export class Photo {
+export class Photo extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -21,3 +29,5 @@ export class Photo {
   @ManyToOne(() => Client, (client) => client.photos)
   user: Client;
 }
+
+export interface IPhotoRepo extends Photo {}
