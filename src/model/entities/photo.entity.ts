@@ -27,7 +27,7 @@ export class Photo extends BaseEntity {
   updatedAt: Date;
 
   @ManyToOne(() => Client, (client) => client.photos)
-  user: Client;
+  client: Client;
 }
 
 export interface IPhotoRepo extends Photo {}

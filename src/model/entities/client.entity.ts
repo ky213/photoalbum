@@ -50,7 +50,7 @@ export class Client extends User {
   @Column({ type: "varchar", default: "/default-avatar.png" })
   avatar: string;
 
-  @OneToMany(() => Photo, (photo) => photo.user)
+  @OneToMany(() => Photo, (photo) => photo.client)
   photos: Photo[];
 
   static async findClientBy(key: string, value: string) {
@@ -60,10 +60,30 @@ export class Client extends User {
   }
 
   static async registerNewClient(clientData: ClientDTO) {
-    const newClient = Object.assign(new Client(), clientData);
+    const newClient: Client = new Client();
 
-    //set full name
-    newClient.fullName = newClient.firstName + " " + newClient.lastName;
+    newClient.firstName = clientData.firstName;
+    newClient.lastName = clientData.lastName;
+    newClient.fullName = clientData.firstName + " " + clientData.lastName;
+    newClient.email = clientData.email;
+    newClient.password = clientData.password;
+    newClient.avatar = clientData.avatar;
+    newClient.role = clientData.role;
+    newClient.active = clientData.active;
+
+    //set photos
+    const newPhotos = [];
+
+    for (const { name, url } of clientData.photos) {
+      let newPhoto = new Photo();
+      newPhoto.name = name;
+      newPhoto.url = url;
+      newPhoto = await newPhoto.save();
+
+      newPhotos.push(newPhoto);
+    }
+
+    newClient.photos = newPhotos;
 
     return await newClient.save();
   }

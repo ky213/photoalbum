@@ -20,14 +20,11 @@ export class ClientController {
 
       // upload photos
       clientDTO = await Files.uploadPhotos(clientDTO as ClientDTO);
-      console.log(clientDTO);
+
       // register client
       const newClient = await this.clientRepo.registerNewClient(clientDTO as ClientDTO);
 
-      // await uploadPhotos(newClient.id, clientDTO )
-      //save photos
-
-      return res.status(201).json({});
+      return res.status(201).json(newClient);
     } catch (error) {
       next(error);
     }
