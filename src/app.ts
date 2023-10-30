@@ -1,19 +1,28 @@
 import "reflect-metadata";
 import dotenv from "dotenv";
 import express, { Request, Response, NextFunction } from "express";
+import passport from "passport";
+import session from "express-session";
 
 import { clientController } from "controllers";
 import { DIR } from "config/constants";
+import { sessionConfig } from "config/authentication";
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
 // create express app
 export const app = express();
 
+app.use(express.json({ limit: "5mb" }));
 app.use(express.static(DIR.PRIVATE));
 app.use(express.static(DIR.PUBLIC));
 
-app.use(express.json({ limit: "5mb" }));
+// init authencitation services
+app.use(session(sessionConfig));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// api endpoints
 app.post("/api/register", (req: Request, res: Response, next: NextFunction) =>
   clientController.handlRegister(req, res, next)
 );
