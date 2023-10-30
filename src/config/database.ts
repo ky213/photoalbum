@@ -8,6 +8,6 @@ export const db = new DataSource({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE_NAME,
   entities: ["src/model/entities/*.ts", "src/model/entities/*.js"],
-  logging: process.env.NODE_ENV == "dev",
+  logging: process.env.NODE_ENV == "prod",
   synchronize: process.env.NODE_ENV == "dev",
 });

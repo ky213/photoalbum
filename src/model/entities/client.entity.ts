@@ -47,7 +47,7 @@ export class User extends BaseEntity {
 
 @Entity()
 export class Client extends User {
-  @Column({ type: "varchar" })
+  @Column({ type: "varchar", default: "/default-avatar.png" })
   avatar: string;
 
   @OneToMany(() => Photo, (photo) => photo.user)

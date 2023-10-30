@@ -2,6 +2,7 @@ import { Length, IsEmail, IsEnum, IsBoolean, IsStrongPassword, IsString, IsArray
 import { Exclude } from "class-transformer";
 
 import { IRoles } from "model/types/common";
+import PhotoDTO from "./photo.dto";
 
 class UserDTO {
   @Length(2, 25)
@@ -32,5 +33,5 @@ export default class ClientDTO extends UserDTO {
   avatar: string;
 
   @IsArray({})
-  photos: string;
+  photos: PhotoDTO[];
 }
