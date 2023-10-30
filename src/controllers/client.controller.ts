@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import bcrypt from "bcrypt";
 
 import { Client } from "model/entities";
 import { Validator } from "shared/utils/validator";
@@ -20,6 +21,12 @@ export class ClientController {
 
       // upload photos
       clientDTO = await Files.uploadPhotos(clientDTO as ClientDTO);
+
+      //hash the passwrod
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(clientDTO.password, salt);
+
+      clientDTO.password = hashedPassword;
 
       // register client
       const newClient = await this.clientRepo.registerNewClient(clientDTO as ClientDTO);

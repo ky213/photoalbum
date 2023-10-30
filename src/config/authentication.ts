@@ -10,24 +10,26 @@ export const sessionConfig: SessionOptions = {
   saveUninitialized: false,
   secret: process.env.SESSION_SECRET,
   store: new session.MemoryStore(),
+  cookie: { maxAge: 1000 * 60 * 60 * 24 },
 };
 
-export const localStrategy = new Strategy(async (email: string, password: string, done: Function) => {
-  try {
-    const client = await Client.findClientBy("email", email);
+passport.use(
+  new Strategy({ usernameField: "email" }, async (email: string, password: string, done: Function) => {
+    try {
+      const client = await Client.findClientBy("email", email);
 
-    if (!client) return done(null, false);
+      if (!client) return done(null, false);
 
-    const matchedPassword = await bcrypt.compare(password, client.password);
+      const matchedPassword = await bcrypt.compare(password, client.password);
 
-    if (!matchedPassword) return done(null, false);
+      if (!matchedPassword) return done(null, false);
 
-    return done(null, client);
-  } catch (error) {
-    return done(error);
-  }
-});
-
+      return done(null, client);
+    } catch (error) {
+      return done(error);
+    }
+  })
+);
 // Serialize a client
 passport.serializeUser((client: IClient, done) => {
   done(null, client.id);

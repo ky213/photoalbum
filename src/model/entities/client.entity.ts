@@ -28,7 +28,7 @@ export class User extends BaseEntity {
 
   @Column({ type: "varchar", unique: true, nullable: false })
   email: string;
-
+  //TODO: exclude password from select
   @Column({ nullable: false })
   password: string;
 
