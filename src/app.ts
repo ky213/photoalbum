@@ -27,12 +27,10 @@ app.use(passport.session());
 app.post("/api/register", (req: Request, res: Response, next: NextFunction) =>
   clientController.handlRegister(req, res, next)
 );
-app.post("/api/login", passport.authenticate("local"), (req, res) => {
-  return res.json(req.user);
-});
-app.get("/api/users/me", isAuthenticated, (req, res) => {
-  return res.json(req.user);
-});
+app.post("/api/login", passport.authenticate("local"), (req, res) => res.json(req.user));
+app.get("/api/users/me", isAuthenticated, (req: Request, res: Response, next: NextFunction) =>
+  clientController.handleGetlient(req, res, next)
+);
 app.use("*", (_, res: Response): Response => res.status(404).send("Not Found."));
 
 app.use((error: Error, req: Request, res: Response, next: NextFunction): Response => {

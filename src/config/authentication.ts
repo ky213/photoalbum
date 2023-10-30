@@ -16,7 +16,7 @@ export const sessionConfig: SessionOptions = {
 passport.use(
   new Strategy({ usernameField: "email" }, async (email: string, password: string, done: Function) => {
     try {
-      const client = await Client.findClientBy("email", email);
+      const client = await Client.findClientPassword("email", email);
 
       if (!client) return done(null, false);
 

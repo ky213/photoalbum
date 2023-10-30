@@ -28,8 +28,8 @@ export class User extends BaseEntity {
 
   @Column({ type: "varchar", unique: true, nullable: false })
   email: string;
-  //TODO: exclude password from select
-  @Column({ nullable: false })
+
+  @Column({ nullable: false, select: false })
   password: string;
 
   @Column({ type: "enum", enum: IRoles, default: IRoles.USER })
@@ -57,6 +57,20 @@ export class Client extends User {
     return this.createQueryBuilder("client")
       .where(`client.${key} = :${key}`, { [key]: value })
       .getOne();
+  }
+
+  static async findClientPassword(key: string, value: string) {
+    return this.createQueryBuilder("client")
+      .where(`client.${key} = :${key}`, { [key]: value })
+      .addSelect("client.password")
+      .getOne();
+  }
+
+  static async loadClientInfo(id: number | string) {
+    return this.createQueryBuilder("client")
+      .where(`client.id = ${id}`)
+      .leftJoinAndSelect("client.photos", "photo")
+      .getMany();
   }
 
   static async registerNewClient(clientData: ClientDTO) {

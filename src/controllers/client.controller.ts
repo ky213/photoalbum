@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcrypt";
 
-import { Client } from "model/entities";
+import { Client, User } from "model/entities";
 import { Validator } from "shared/utils/validator";
 import { ClientDTO } from "model/DTOs";
 import { Files } from "shared/utils/files";
@@ -31,7 +31,18 @@ export class ClientController {
       // register client
       const newClient = await this.clientRepo.registerNewClient(clientDTO as ClientDTO);
 
-      return res.status(201).json(newClient);
+      return res.status(201).json({ id: newClient.id });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async handleGetlient(req: Request, res: Response, next: NextFunction): Promise<Response> {
+    try {
+      //@ts-ignore //TODO: to be fixed
+      const clientInfo = await this.clientRepo.loadClientInfo(req.user.id);
+
+      return res.json(clientInfo);
     } catch (error) {
       next(error);
     }
