@@ -1,5 +1,3 @@
-import { Request } from "express";
-
 export enum IRoles {
   ADMIN = "ADMIN",
   USER = "USER",

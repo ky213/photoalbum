@@ -1,4 +1,4 @@
-import { IsUrl, IsString, Matches } from "class-validator";
+import { IsUrl, IsString, Matches, IsOptional } from "class-validator";
 
 export default class PhotoDTO {
   @IsString()
@@ -8,7 +8,8 @@ export default class PhotoDTO {
   extension: string;
 
   @IsUrl()
-  url: string;
+  @IsOptional()
+  url?: string;
 
   @IsString()
   data: string;

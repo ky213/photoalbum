@@ -17,7 +17,7 @@ export class ClientController {
   async handlRegister(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
     try {
       let { errors, DTO: clientDTO } = await this.validator.validate<typeof ClientDTO>(ClientDTO, req.body);
-      //TODO: add file validation
+
       if (errors.length) return next(new HttpException(400, { message: "client info not valid", errors }));
 
       const existingClient = await this.clientRepo.findClientBy("email", req.body.email);

@@ -1,7 +1,18 @@
-import { Length, IsEmail, IsEnum, IsBoolean, IsStrongPassword, IsString, IsArray, MaxLength } from "class-validator";
-import { Exclude } from "class-transformer";
+import {
+  Length,
+  IsEmail,
+  IsBoolean,
+  IsStrongPassword,
+  IsString,
+  ArrayMinSize,
+  MaxLength,
+  ValidateNested,
+  IsEnum,
+} from "class-validator";
+import { Exclude, Type } from "class-transformer";
 
 import PhotoDTO from "./photo.dto";
+import { IRoles } from "model/types/common";
 
 class UserDTO {
   @Length(2, 25)
@@ -19,8 +30,8 @@ class UserDTO {
   @MaxLength(50)
   @IsStrongPassword({ minNumbers: 1, minLength: 6, minSymbols: 0, minUppercase: 0, minLowercase: 0 })
   password: string;
-  // TODO: convert to enum
-  @IsString()
+
+  @IsEnum(IRoles)
   role: string;
 
   @IsBoolean()
@@ -31,6 +42,8 @@ export default class ClientDTO extends UserDTO {
   @IsString()
   avatar: string;
 
-  @IsArray({})
+  @ValidateNested({ each: true })
+  @ArrayMinSize(1, { message: "at least one photo should be present" })
+  @Type(() => PhotoDTO)
   photos: PhotoDTO[];
 }

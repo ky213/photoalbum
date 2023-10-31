@@ -8,3 +8,5 @@ export const DIR = {
   PRIVATE: __dirname + "/../../uploads/private",
   PUBLIC: __dirname + "/../../uploads/public",
 };
+
+export const DEFAULT_AVATAR = "/default-avatar.png";

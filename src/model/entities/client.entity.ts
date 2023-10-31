@@ -11,6 +11,7 @@ import {
 import { IRoles } from "../types/common";
 import { Photo } from "./photo.entity";
 import { ClientDTO } from "model/DTOs";
+import { DEFAULT_AVATAR } from "config/constants";
 
 @Entity()
 export class User extends BaseEntity {
@@ -47,8 +48,7 @@ export class User extends BaseEntity {
 
 @Entity()
 export class Client extends User {
-  //TODO: fix default avatar
-  @Column({ type: "varchar", default: "/default-avatar.png" })
+  @Column({ type: "varchar" })
   avatar: string;
 
   @OneToMany(() => Photo, (photo) => photo.client)
@@ -82,7 +82,7 @@ export class Client extends User {
     newClient.fullName = clientData.firstName + " " + clientData.lastName;
     newClient.email = clientData.email;
     newClient.password = clientData.password;
-    newClient.avatar = clientData.avatar;
+    newClient.avatar = clientData.avatar || DEFAULT_AVATAR;
     newClient.role = clientData.role;
     newClient.active = clientData.active;
 
