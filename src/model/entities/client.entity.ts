@@ -47,6 +47,7 @@ export class User extends BaseEntity {
 
 @Entity()
 export class Client extends User {
+  //TODO: fix default avatar
   @Column({ type: "varchar", default: "/default-avatar.png" })
   avatar: string;
 

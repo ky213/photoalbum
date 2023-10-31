@@ -1,7 +1,7 @@
 import { promises as fs, existsSync } from "fs";
 
 import { DIR } from "config/constants";
-import { ClientDTO, PhotoDTO } from "model/DTOs";
+import { ClientDTO } from "model/DTOs";
 
 export class Files {
   constructor() {}
@@ -15,7 +15,7 @@ export class Files {
       const filePath = "/" + photo.name + "." + photo.extension;
 
       await fs.writeFile(clientDir + filePath, photo.data, "base64");
-      photo.url = "/" + client.email + filePath;
+      photo.url = "/photos/" + client.email + filePath;
       photo.data = "";
     }
 

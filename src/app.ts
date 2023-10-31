@@ -15,13 +15,15 @@ import { isAuthenticated } from "shared/middlewares/authentication";
 export const app = express();
 
 app.use(express.json({ limit: "5mb" }));
-app.use(express.static(DIR.PRIVATE));
-app.use(express.static(DIR.PUBLIC));
 
 // init authencitation services
 app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());
+
+//serve files
+app.use("/photos", isAuthenticated, express.static(DIR.PRIVATE));
+app.use(express.static(DIR.PUBLIC));
 
 // api endpoints
 app.post("/api/register", (req: Request, res: Response, next: NextFunction) =>
