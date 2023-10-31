@@ -10,6 +10,7 @@ import { clientController } from "controllers";
 import { DIR } from "config/constants";
 import { sessionConfig } from "config/authentication";
 import { isAuthenticated } from "shared/middlewares/authentication";
+import logger from "shared/utils/loggers";
 
 // create express app
 export const app = express();
@@ -36,5 +37,7 @@ app.get("/api/users/me", isAuthenticated, (req: Request, res: Response, next: Ne
 app.use("*", (_, res: Response): Response => res.status(404).send("Not Found."));
 
 app.use((error: Error, req: Request, res: Response, next: NextFunction): Response => {
+  logger(req).error(error.message);
+
   return res.status(500).send(error.message);
 });
