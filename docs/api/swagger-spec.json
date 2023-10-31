@@ -1,0 +1,199 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "CobbleWeb photo album API",
+    "version": "1.0.0",
+    "title": "Photo Album"
+  },
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "photo",
+      "description": "client personel photo",
+      "url": "http://cobbleweb.com"
+    },
+    {
+      "name": "client",
+      "description": "main user",
+      "externalDocs": {
+        "description": "App main user",
+        "url": "http://cobbleweb.com"
+      }
+    }
+  ],
+  "schemes": ["http"],
+  "paths": {
+    "/users/me": {
+      "get": {
+        "tags": ["client"],
+        "summary": "Get user by user name",
+        "description": "",
+        "operationId": "getUserByName",
+        "produces": ["application/json", "application/xml"],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "The name that needs to be fetched. Use user1 for testing. ",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": ["client"],
+        "summary": "Logs client into the system",
+        "description": "Login client using email and password",
+        "operationId": "loginClient",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "body",
+            "description": "The client email for login",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "description": "The password for login in clear text",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "headers": {
+              "set-cookie": {
+                "type": "string",
+                "format": "string",
+                "description": "session cookie"
+              }
+            },
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Invalid email/password"
+          }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "tags": ["client"],
+        "summary": "Register client",
+        "description": "Register new client",
+        "operationId": "registerClient",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Create client object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "session-cookies": {
+      "type": "strin",
+      "name": "cookie",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Client": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "photos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Photo"
+          }
+        }
+      }
+    },
+    "Photo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

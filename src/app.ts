@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import express, { Request, Response, NextFunction } from "express";
 import passport from "passport";
 import session from "express-session";
+import swaggerUi from "swagger-ui-express";
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
@@ -12,7 +13,7 @@ import { sessionConfig } from "config/authentication";
 import { isAuthenticated } from "shared/middlewares/authentication";
 import logger from "shared/utils/loggers";
 import HttpException from "shared/utils/http-exceptions";
-
+import swaggerSpec from "../docs/api/swagger-spec.json";
 // create express app
 export const app = express();
 
@@ -22,6 +23,9 @@ app.use(express.json({ limit: "5mb" }));
 app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());
+
+//api docs
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 //serve files
 app.use("/photos", isAuthenticated, express.static(DIR.PRIVATE));
