@@ -11,6 +11,7 @@ import { DIR } from "config/constants";
 import { sessionConfig } from "config/authentication";
 import { isAuthenticated } from "shared/middlewares/authentication";
 import logger from "shared/utils/loggers";
+import HttpException from "shared/utils/http-exceptions";
 
 // create express app
 export const app = express();
@@ -36,8 +37,10 @@ app.get("/api/users/me", isAuthenticated, (req: Request, res: Response, next: Ne
 );
 app.use("*", (_, res: Response): Response => res.status(404).send("Not Found."));
 
-app.use((error: Error, req: Request, res: Response, next: NextFunction): Response => {
-  logger(req).error(error.message);
+app.use((error: HttpException, req: Request, res: Response, next: NextFunction): Response => {
+  const level = error.status <= 400 ? "warn" : "error";
 
-  return res.status(500).send(error.message);
+  logger(req).log(level, error.message);
+
+  return res.status(error.status || 500).json({ message: error.message, errors: error.content?.errors });
 });
