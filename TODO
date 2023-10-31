@@ -1,13 +1,14 @@
 
 Todo:
-  ✔ init app - done @project(Todo) @done(23-10-28 22:24)
-  ✔ init db - done @done(23-10-28 22:22) @project(Todo)
-  ✔ add controllers @started(23-10-28 22:23) @done(23-10-31 07:01) @lasted(2d8h38m7s)
-  ✔ feature auth @done(23-10-31 07:01)
-  ✔ feature photo upload @done(23-10-31 07:01)
-  ✔ feature loggersƒ @done(23-10-31 09:03)
-  ✔ feature express error handler @done(23-10-31 09:03)
-  ☐ feature api doc
-  ☐ eslint + pretter recheck
+    ✔ init app - done @project(Todo) @done(23-10-28 22:24)
+    ✔ init db - done @done(23-10-28 22:22) @project(Todo)
+    ✔ add controllers @started(23-10-28 22:23) @done(23-10-31 07:01) @lasted(2d8h38m7s)
+    ✔ feature auth @done(23-10-31 07:01)
+    ✔ feature photo upload @done(23-10-31 07:01)
+    ✔ feature loggers @done(23-10-31 09:03)
+    ✔ feature express error handler @done(23-10-31 09:03)
+    ✔ feature api doc @done(23-10-31 14:58)
+    ✔ eslint + pretter recheck @done(23-10-31 14:58)
+    
   
-
+  
