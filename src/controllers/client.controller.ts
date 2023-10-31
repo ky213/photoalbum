@@ -7,6 +7,10 @@ import { ClientDTO } from "model/DTOs";
 import { Files } from "shared/utils/files";
 import HttpException from "shared/utils/http-exceptions";
 
+/**
+ * A controller to handle all client related requests.
+ * Dependancy injection startegy is used to load services through it's contructor.
+ */
 export class ClientController {
   constructor(private readonly clientRepo: typeof Client, private readonly validator: typeof Validator) {}
 
@@ -40,7 +44,7 @@ export class ClientController {
 
   async handleGetlient(req: Request, res: Response, next: NextFunction): Promise<Response> {
     try {
-      //@ts-ignore //TODO: to be fixed
+      //@ts-ignore //TODO: id type to be fixed
       const clientInfo = await this.clientRepo.loadClientInfo(req.user.id);
 
       return res.json(clientInfo);

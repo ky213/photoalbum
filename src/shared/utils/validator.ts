@@ -9,7 +9,9 @@ export interface IVlidationResult {
 
 export class Validator {
   constructor() {}
-
+  /**
+   * A validation method that can automatically handle all object types providing that a schema is defined.
+   */
   static async validate<T>(schema: any, newData: IAnyObject): Promise<IVlidationResult> {
     try {
       const clientDTO: IAnyObject = plainToClass(schema, newData);

@@ -4,6 +4,9 @@ import { createLogger, format, transports } from "winston";
 const { combine, timestamp, label, printf, colorize } = format;
 const basicFormat = printf(({ level, message, label, timestamp }) => `${timestamp} [${label}] ${level}: ${message}`);
 
+/**
+ * A winston logger adapter to log both runtime exceptions and http exceptions.
+ */
 const logger = (req?: Request) => {
   const labelType: string = req ? `${req.method} ${req.path}` : "error";
 

@@ -10,7 +10,7 @@ export const sessionConfig: SessionOptions = {
   saveUninitialized: false,
   secret: process.env.SESSION_SECRET,
   store: new session.MemoryStore(),
-  cookie: { maxAge: 1000 * 60 * 60 * 24 },
+  cookie: { maxAge: 1000 * 60 * 60 * 24 }, // 24 hours
 };
 
 passport.use(
@@ -30,10 +30,12 @@ passport.use(
     }
   })
 );
+
 // Serialize a client
 passport.serializeUser((client: IClient, done) => {
   done(null, client.id);
 });
+
 // Deserialize a client
 passport.deserializeUser(async (id: string, done) => {
   try {

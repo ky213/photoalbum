@@ -1,7 +1,6 @@
 import { Length, IsEmail, IsEnum, IsBoolean, IsStrongPassword, IsString, IsArray, MaxLength } from "class-validator";
 import { Exclude } from "class-transformer";
 
-import { IRoles } from "model/types/common";
 import PhotoDTO from "./photo.dto";
 
 class UserDTO {

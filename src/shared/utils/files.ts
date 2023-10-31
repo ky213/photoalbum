@@ -5,7 +5,11 @@ import { ClientDTO } from "model/DTOs";
 
 export class Files {
   constructor() {}
-
+  /**
+   * A method to upload client photo.
+   * Each client will have a directory named with his email address under uploads/private.
+   * A client's photo folder is only accessible after authentication.
+   */
   static async uploadPhotos(client: ClientDTO): Promise<ClientDTO> {
     const clientDir = DIR.PRIVATE + "/" + client.email;
 
