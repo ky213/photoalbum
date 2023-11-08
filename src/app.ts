@@ -4,6 +4,7 @@ import express, { Request, Response, NextFunction } from "express";
 import passport from "passport";
 import session from "express-session";
 import swaggerUi from "swagger-ui-express";
+import cors from "cors";
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
@@ -17,6 +18,7 @@ import swaggerSpec from "../docs/api/swagger-spec.json";
 // create express app
 export const app = express();
 
+app.use(cors({ origin: "*" }));
 app.use(express.json({ limit: "5mb" }));
 
 // init authencitation services
