@@ -18,7 +18,7 @@ import swaggerSpec from "../docs/api/swagger-spec.json";
 // create express app
 export const app = express();
 
-app.use(cors({ origin: "*" }));
+app.use(cors({ origin: ["http://localhost:8080", "*"], credentials: true, methods: ["GET", "POST"] }));
 app.use(express.json({ limit: "5mb" }));
 
 // init authencitation services

@@ -71,7 +71,7 @@ export class Client extends User {
     return this.createQueryBuilder("client")
       .where(`client.id = ${id}`)
       .leftJoinAndSelect("client.photos", "photo")
-      .getMany();
+      .getOne();
   }
 
   static async registerNewClient(clientData: ClientDTO) {
