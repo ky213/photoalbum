@@ -38,6 +38,7 @@ app.post("/api/register", (req: Request, res: Response, next: NextFunction) =>
   clientController.handlRegister(req, res, next)
 );
 app.post("/api/login", passport.authenticate("local"), (req, res) => res.json(req.user));
+app.post("/api/logout", (req, res) => res.json(req.logout));
 app.get("/api/users/me", isAuthenticated, (req: Request, res: Response, next: NextFunction) =>
   clientController.handleGetlient(req, res, next)
 );
